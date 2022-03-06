@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./Row.css";
 
 const Row = ({ guess, curLetter, passed }) => {
-  console.log("🚀 ~ file: Row.js ~ line 5 ~ Row ~ passed", passed);
-  console.log("🚀 ~ file: Row.js ~ line 5 ~ Row ~ guess", guess);
   const Tile = ({ tile, pos }) => {
     return (
       <div
@@ -28,7 +26,6 @@ const Row = ({ guess, curLetter, passed }) => {
 };
 
 const areEqual = (o1, o2) => {
-  console.log("🚀 ~ file: Row.js ~ line 30 ~ areEqual ~ o1, o2", o1, o2);
   return (
     o1.guess.every((obj, i) => obj.letter === o2.guess[i].letter) &&
     o1.passed === o2.passed

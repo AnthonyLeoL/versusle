@@ -1,15 +1,19 @@
 import React, { useReducer, useEffect } from "react";
 import Row from "./components/Row";
+import { useAlert } from "react-alert";
 
 import "./App.css";
 const ACCEPT_WORDS = new Set(["PENIS", "TAINT", "SPUMM"]);
 const TARGET_WORD = "SPUMM";
 
 function App() {
+  const alert = useAlert();
+
   const NUM_ROWS = 12;
   const initialState = {
     numGuesses: 0,
     curLetter: 0,
+    alert: "",
     guesses: [...Array(NUM_ROWS)].map((_) =>
       [...Array(5)].map(() => ({ letter: "", correct: "" }))
     ),
@@ -31,19 +35,19 @@ function App() {
 
   function reducer(state, action) {
     if (action.repeat) return state;
+    console.log("running...");
     let { key } = action;
     key = key.toUpperCase();
     let newGuesses = JSON.parse(JSON.stringify(state.guesses));
-    console.log(
-      "🚀 ~ file: App.js ~ line 39 ~ reducer ~ newGuesses",
-      newGuesses
-    );
     let { curLetter, numGuesses } = state;
 
     if (curLetter === 5 && key === "ENTER") {
       let word = state.guesses[numGuesses].map((obj) => obj.letter);
       if (ACCEPT_WORDS.has(word.join(""))) {
         console.log("accepted: ", word);
+        if (TARGET_WORD === word.join("")) {
+          alert.show("Oh look, an alert!");
+        }
         word.forEach((letter, i) => {
           let isCorrect;
           if (TARGET_WORD[i] === letter) {
@@ -64,6 +68,7 @@ function App() {
         };
       } else {
         console.log("not a word");
+        alert.show("Not in word list");
       }
     }
     if (key === "BACKSPACE" && curLetter > 0) {
