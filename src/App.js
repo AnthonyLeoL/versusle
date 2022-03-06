@@ -33,7 +33,7 @@ function App() {
     if (action.repeat) return state;
     let { key } = action;
     key = key.toUpperCase();
-    let newGuesses = [...state.guesses];
+    let newGuesses = JSON.parse(JSON.stringify(state.guesses));
     console.log(
       "🚀 ~ file: App.js ~ line 39 ~ reducer ~ newGuesses",
       newGuesses
@@ -90,15 +90,16 @@ function App() {
 
   return (
     <div tabIndex="0" style={{ width: "350px", height: "840px" }}>
-      {console.log("🚀 ~ file: App.js ~ line 92 ~ App ~ state", state)}
-      {state.guesses.map((guess, i) => (
-        <Row
-          key={i}
-          active={i === state.numGuesses}
-          curLetter={state.curLetter}
-          guess={guess}
-        />
-      ))}
+      {state.guesses.map((guess, i) => {
+        return (
+          <Row
+            key={i}
+            passed={i < state.numGuesses}
+            curLetter={i === state.numGuesses ? state.curLetter : -1}
+            guess={guess}
+          />
+        );
+      })}
     </div>
   );
 }
