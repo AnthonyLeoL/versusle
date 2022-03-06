@@ -25,13 +25,16 @@ function App() {
       dispatch(e);
     }
 
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown, () => {
+      console.log("added");
+    });
+    if (state.alert) alert.show(state.alert);
 
     // Don't forget to clean up
     return function cleanup() {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [state.alert]);
 
   function reducer(state, action) {
     if (action.repeat) return state;
@@ -39,15 +42,12 @@ function App() {
     let { key } = action;
     key = key.toUpperCase();
     let newGuesses = JSON.parse(JSON.stringify(state.guesses));
-    let { curLetter, numGuesses } = state;
+    let { curLetter, numGuesses, alert } = state;
 
     if (curLetter === 5 && key === "ENTER") {
       let word = state.guesses[numGuesses].map((obj) => obj.letter);
       if (ACCEPT_WORDS.has(word.join(""))) {
         console.log("accepted: ", word);
-        if (TARGET_WORD === word.join("")) {
-          alert.show("Oh look, an alert!");
-        }
         word.forEach((letter, i) => {
           let isCorrect;
           if (TARGET_WORD[i] === letter) {
@@ -60,15 +60,17 @@ function App() {
           }
           newGuesses[numGuesses][i].correct = isCorrect;
         });
+        if (TARGET_WORD === word.join("")) alert = "You got it!";
         return {
           ...state,
           curLetter: 0,
+          alert,
           numGuesses: state.numGuesses + 1,
           guesses: newGuesses,
         };
       } else {
         console.log("not a word");
-        alert.show("Not in word list");
+        return { ...state, alert: "not a word" };
       }
     }
     if (key === "BACKSPACE" && curLetter > 0) {
