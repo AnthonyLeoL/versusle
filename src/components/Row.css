@@ -1,0 +1,38 @@
+.tile {
+  width: 100%;
+  border: 2px solid #565758;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  line-height: 2rem;
+  font-weight: bold;
+  vertical-align: middle;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  user-select: none;
+  margin: 2px;
+  color: white;
+}
+@keyframes pop {
+  50% {
+    transform: scale(1.1);
+  }
+}
+.animate-pop {
+  animation: pop 0.1s;
+  border-color: #bfc1c2;
+}
+
+.sorta {
+  background-color: rgb(168, 168, 8);
+  animation: pop 0.3s;
+}
+
+.true {
+  background-color: green;
+}
+
+.nope {
+  background-color: gray;
+}
