@@ -1,3 +1,11 @@
+.row {
+  display: flex;
+  height: 64px;
+  width: 320px;
+  margin: 5px;
+  color: white;
+}
+
 .tile {
   width: 100%;
   border: 2px solid #565758;
@@ -12,12 +20,30 @@
   text-transform: uppercase;
   user-select: none;
   margin: 2px;
-  color: white;
+  color: inherit;
 }
 @keyframes pop {
   50% {
     transform: scale(1.1);
   }
+}
+@keyframes shake {
+  20% {
+    transform: translateX(-10px);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+  80% {
+    transform: translateX(-5px);
+  }
+  to {
+    color: red;
+  }
+}
+
+.animate-shake {
+  animation: shake 0.4s;
 }
 .animate-pop {
   animation: pop 0.1s;

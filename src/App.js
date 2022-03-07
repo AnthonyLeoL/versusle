@@ -17,6 +17,7 @@ function App() {
     guesses: [...Array(NUM_ROWS)].map((_) =>
       [...Array(5)].map(() => ({ letter: "", correct: "" }))
     ),
+    invalid: false,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -45,6 +46,7 @@ function App() {
     let newGuesses = JSON.parse(JSON.stringify(state.guesses));
     let { curLetter, numGuesses } = state;
     let alert = { msg: "", type: "" };
+    let invalid = false;
 
     if (curLetter === 5 && key === "ENTER") {
       let word = state.guesses[numGuesses].map((obj) => obj.letter);
@@ -72,7 +74,11 @@ function App() {
         };
       } else {
         console.log("not a word");
-        return { ...state, alert: { msg: "not a word", type: "error" } };
+        return {
+          ...state,
+          alert: { msg: "not a word", type: "error" },
+          invalid: true,
+        };
       }
     }
     if (key === "BACKSPACE" && curLetter > 0) {
@@ -82,6 +88,7 @@ function App() {
         ...state,
         curLetter,
         alert,
+        invalid,
         guesses: newGuesses,
       };
     }
@@ -100,12 +107,17 @@ function App() {
 
   return (
     <div tabIndex="0" className="board-container">
+      {console.log(
+        "🚀 ~ file: App.js ~ line 120 ~ {state.guesses.map ~ state",
+        state.invalid
+      )}
       {state.guesses.map((guess, i) => {
         return (
           <Row
             key={i}
             passed={i < state.numGuesses}
             curLetter={i === state.numGuesses ? state.curLetter : -1}
+            invalid={i === state.numGuesses ? state.invalid : false}
             guess={guess}
           />
         );
