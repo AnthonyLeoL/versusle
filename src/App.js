@@ -13,7 +13,7 @@ function App() {
   const initialState = {
     numGuesses: 0,
     curLetter: 0,
-    alert: "",
+    alert: { msg: "", type: "" },
     guesses: [...Array(NUM_ROWS)].map((_) =>
       [...Array(5)].map(() => ({ letter: "", correct: "" }))
     ),
@@ -28,7 +28,8 @@ function App() {
     document.addEventListener("keydown", handleKeyDown, () => {
       console.log("added");
     });
-    if (state.alert) alert.show(state.alert);
+    if (state.alert.msg) alert.show(state.alert.msg, { type: alert.type });
+    // state.alert = "";
 
     // Don't forget to clean up
     return function cleanup() {
@@ -42,7 +43,8 @@ function App() {
     let { key } = action;
     key = key.toUpperCase();
     let newGuesses = JSON.parse(JSON.stringify(state.guesses));
-    let { curLetter, numGuesses, alert } = state;
+    let { curLetter, numGuesses } = state;
+    let alert = { msg: "", type: "" };
 
     if (curLetter === 5 && key === "ENTER") {
       let word = state.guesses[numGuesses].map((obj) => obj.letter);
@@ -70,7 +72,7 @@ function App() {
         };
       } else {
         console.log("not a word");
-        return { ...state, alert: "not a word" };
+        return { ...state, alert: { msg: "not a word", type: "error" } };
       }
     }
     if (key === "BACKSPACE" && curLetter > 0) {
@@ -78,7 +80,8 @@ function App() {
       newGuesses[numGuesses][curLetter].letter = "";
       return {
         ...state,
-        curLetter: curLetter,
+        curLetter,
+        alert,
         guesses: newGuesses,
       };
     }
@@ -96,7 +99,7 @@ function App() {
   }
 
   return (
-    <div tabIndex="0" style={{ width: "350px", height: "840px" }}>
+    <div tabIndex="0" className="board-container">
       {state.guesses.map((guess, i) => {
         return (
           <Row

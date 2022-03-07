@@ -6,10 +6,17 @@ html {
   height: 100%;
 }
 body {
-  background: #121213;
+  background: #333333;
   margin: 0;
   padding: 0;
   height: 100%;
   position: relative;
   z-index: -2;
+}
+
+.board-container {
+  margin: 50px;
+}
+button {
+  display: none;
 }

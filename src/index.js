@@ -6,9 +6,10 @@ import App from "./App";
 
 const options = {
   // you can also just use 'bottom center'
-  position: positions.TOP_LEFT,
+  position: positions.TOP_CENTER,
   timeout: 1500,
-  offset: "30px 250px",
+  containerStyle: { textAlign: "center" },
+
   // you can also just use 'scale'
   transition: transitions.FADE,
 };
