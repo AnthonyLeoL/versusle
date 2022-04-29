@@ -1,0 +1,15 @@
+.key {
+  height: 70px;
+  width: 50px;
+  border: 1px solid rgb(211, 210, 210);
+  background-color: rgb(153, 145, 145);
+  color: white;
+  display: flex;
+  justify-content: center;
+  font-size: larger;
+}
+.keyboard {
+  width: 700px;
+  height: 400px;
+  align-self: center;
+}

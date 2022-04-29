@@ -57,6 +57,7 @@
 
 .true {
   background-color: green;
+  animation: pop 0.3s;
 }
 
 .nope {

@@ -5,7 +5,6 @@ import { positions, transitions, Provider as AlertProvider } from "react-alert";
 import App from "./App";
 
 const options = {
-  // you can also just use 'bottom center'
   position: positions.TOP_CENTER,
   timeout: 1500,
   containerStyle: { textAlign: "center" },

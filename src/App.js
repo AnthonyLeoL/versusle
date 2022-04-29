@@ -3,8 +3,9 @@ import Row from "./components/Row";
 import { useAlert } from "react-alert";
 
 import "./App.css";
-const ACCEPT_WORDS = new Set(["PENIS", "TAINT", "SPUMM"]);
-const TARGET_WORD = "SPUMM";
+import Keyboard from "./components/Keyboard";
+const ACCEPT_WORDS = new Set(["SHANE"]);
+const TARGET_WORD = "SHANE";
 
 function App() {
   const alert = useAlert();
@@ -18,6 +19,7 @@ function App() {
       [...Array(5)].map(() => ({ letter: "", correct: "" }))
     ),
     invalid: false,
+    sendEvent: false,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -26,17 +28,14 @@ function App() {
       dispatch(e);
     }
 
-    document.addEventListener("keydown", handleKeyDown, () => {
-      console.log("added");
-    });
+    document.addEventListener("keydown", handleKeyDown);
     if (state.alert.msg) alert.show(state.alert.msg, { type: alert.type });
-    // state.alert = "";
 
     // Don't forget to clean up
     return function cleanup() {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [state.alert]);
+  }, [state.alert, state.numGuesses]);
 
   function reducer(state, action) {
     if (action.repeat) return state;
@@ -106,22 +105,35 @@ function App() {
   }
 
   return (
-    <div tabIndex="0" className="board-container">
-      {console.log(
-        "🚀 ~ file: App.js ~ line 120 ~ {state.guesses.map ~ state",
-        state.invalid
-      )}
-      {state.guesses.map((guess, i) => {
-        return (
-          <Row
-            key={i}
-            passed={i < state.numGuesses}
-            curLetter={i === state.numGuesses ? state.curLetter : -1}
-            invalid={i === state.numGuesses ? state.invalid : false}
-            guess={guess}
-          />
-        );
-      })}
+    <div style={{ display: "flex" }}>
+      <div tabIndex="0" className="board-container">
+        {console.log(
+          "🚀 ~ file: App.js ~ line 120 ~ {state.guesses.map ~ state",
+          state.invalid
+        )}
+        {state.guesses.map((guess, i) => {
+          return (
+            <Row
+              key={i}
+              passed={i < state.numGuesses}
+              curLetter={i === state.numGuesses ? state.curLetter : -1}
+              invalid={i === state.numGuesses ? state.invalid : false}
+              guess={guess}
+            />
+          );
+        })}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          width: "100%",
+          alignContent: "center",
+          marginTop: "30%",
+        }}
+      >
+        <Keyboard />
+      </div>
     </div>
   );
 }
